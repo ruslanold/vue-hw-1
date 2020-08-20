@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input v-model="text"/>
+    <button @click="addTodo($event)">add</button>
+    <ul>
+      <li v-for="item in arrayTodos" :key="item.id">
+        {{item.value}}
+        <button @click="deleteTodo(item.id)">delete</button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  methods: {
+    addTodo({target}) {
+      this.arrayTodos.length === 10 ? target.disabled = true 
+                                    : this.arrayTodos.push({
+                                                            id: this.arrayTodos.length,
+                                                            value: this.text 
+                                                            })
+    },
+    deleteTodo(id) {
+      this.arrayTodos.splice(id,1)
+    }
+  },
+
+  data() {
+    return {
+      text: '',
+      arrayTodos: []
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
